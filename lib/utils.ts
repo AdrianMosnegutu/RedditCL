@@ -1,6 +1,11 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { SubredditResponse, SubredditType } from "./types";
+import {
+  PostResponse,
+  PostType,
+  SubredditResponse,
+  SubredditType,
+} from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -123,5 +128,26 @@ export function responseToSubredditType({
     banner: data.banner_img,
     members: data.subscribers,
     activeMembers: data.accounts_active,
+  };
+}
+
+/**
+ * Converts a PostResponse object to a PostType object.
+ *
+ * @param {PostResponse} param0 - The response object containing post data.
+ * @returns {PostType} The formatted post object.
+ */
+export function responseToPostType({ data }: PostResponse): PostType {
+  return {
+    id: data.id,
+    author: data.author,
+    title: data.title,
+    body: data.selftext_html,
+    mediaType: data.post_hint,
+    url: data.url,
+    redditUrl: `https://reddit.com${data.permalink}`,
+    timeCreated: data.created_utc,
+    score: data.score,
+    comments: data.num_comments,
   };
 }

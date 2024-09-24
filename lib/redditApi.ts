@@ -1,8 +1,13 @@
 import axios from "axios";
 import { getRedditOAuthToken } from "./auth";
-import { SUBREDDITS_LIMIT } from "./constants";
-import { SubredditResponse, SubredditType } from "./types";
-import { responseToSubredditType } from "./utils";
+import { POSTS_LIMIT, SUBREDDITS_LIMIT } from "./constants";
+import {
+  PostResponse,
+  PostType,
+  SubredditResponse,
+  SubredditType,
+} from "./types";
+import { responseToPostType, responseToSubredditType } from "./utils";
 
 /**
  * Fetches a list of popular subreddits from Reddit.
@@ -52,4 +57,28 @@ export async function getSubreddit(
 
   const subreddit = response.data;
   return responseToSubredditType(subreddit);
+}
+
+/**
+ * Fetches the most popular posts from Reddit.
+ *
+ * @param limit - The maximum number of posts to retrieve. Defaults to POSTS_LIMIT.
+ * @returns A promise that resolves to an array of PostType objects.
+ *
+ * @throws Will throw an error if the request to Reddit's API fails.
+ */
+export async function getPopularPosts(
+  limit: number = POSTS_LIMIT,
+): Promise<PostType[]> {
+  const url = `https://oauth.reddit.com/best?limit=${limit}`;
+  const token = await getRedditOAuthToken();
+
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const posts = response.data.data.children;
+  return posts.map((post: PostResponse) => responseToPostType(post));
 }

@@ -21,3 +21,36 @@ export interface SubredditResponse {
     accounts_active: number;
   };
 }
+
+//////////////////
+//  POST TYPES  //
+//////////////////
+
+export interface PostType {
+  id: string;
+  author: string;
+  title: string;
+  body: string;
+  mediaType: string;
+  url: string;
+  redditUrl: string;
+  timeCreated: number;
+  score: number;
+  comments: number;
+}
+
+export interface PostResponse {
+  data: {
+    id: string;
+    author: string;
+    title: string;
+    selftext_html: string;
+    post_hint: string;
+    is_video: boolean;
+    url: string;
+    permalink: string;
+    created_utc: number;
+    score: number;
+    num_comments: number;
+  };
+}
