@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getRedditOAuthToken } from "./auth";
 import { POSTS_LIMIT, SUBREDDITS_LIMIT } from "./constants";
 import {
   PostResponse,
@@ -10,24 +9,53 @@ import {
 import { responseToPostType, responseToSubredditType } from "./utils";
 
 /**
- * Fetches a list of popular subreddits from Reddit.
+ * Fetches the avatar URL of a specified Reddit user.
  *
+ * @param token - The OAuth token used for authorization.
+ * @param username - The Reddit username whose avatar is to be fetched.
+ * @returns A promise that resolves to the avatar URL as a string.
+ * If the avatar URL contains "styles" or an error occurs, an empty string is returned.
+ *
+ * @throws Will throw an error if the avatar URL contains "styles".
+ */
+export async function getUserAvatar(
+  token: string,
+  username: string,
+): Promise<string> {
+  const response = await axios.get(
+    `https://oauth.reddit.com/user/${username}/about.json`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  const avatar = response.data.data.icon_img;
+  return /styles/.test(avatar) ? "" : avatar;
+}
+
+/**
+ * Fetches a list of popular subreddits from the Reddit API.
+ *
+ * @param token - The OAuth token used for authorization.
  * @param limit - The maximum number of subreddits to fetch. Defaults to `SUBREDDITS_LIMIT`.
  * @returns A promise that resolves to an array of `SubredditType` objects.
  *
- * @throws Will throw an error if the request fails or if the OAuth token cannot be retrieved.
+ * @throws Will throw an error if the request fails.
  */
 export async function getPopularSubreddits(
+  token: string,
   limit: number = SUBREDDITS_LIMIT,
 ): Promise<SubredditType[]> {
-  const url = `https://oauth.reddit.com/subreddits/popular?limit=${limit}`;
-  const token = await getRedditOAuthToken();
-
-  const response = await axios.get(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+  const response = await axios.get(
+    `https://oauth.reddit.com/subreddits/popular.json?limit=${limit}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 
   const subreddits = response.data.data.children;
   return subreddits.map((subreddit: SubredditResponse) =>
@@ -38,22 +66,24 @@ export async function getPopularSubreddits(
 /**
  * Fetches information about a specific subreddit.
  *
+ * @param token - The OAuth token used for authorization.
  * @param subredditName - The name of the subreddit to fetch information for.
- * @returns A promise that resolves to a `SubredditType` object containing subreddit details.
+ * @returns A promise that resolves to a `SubredditType` containing the subreddit's information.
  *
- * @throws Will throw an error if the request fails or if the OAuth token cannot be retrieved.
+ * @throws Will throw an error if the request fails.
  */
 export async function getSubreddit(
+  token: string,
   subredditName: string,
 ): Promise<SubredditType> {
-  const url = `https://oauth.reddit.com/r/${subredditName}/about.json`;
-  const token = await getRedditOAuthToken();
-
-  const response = await axios.get(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+  const response = await axios.get(
+    `https://oauth.reddit.com/r/${subredditName}/about.json`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 
   const subreddit = response.data;
   return responseToSubredditType(subreddit);
@@ -62,22 +92,22 @@ export async function getSubreddit(
 /**
  * Fetches the most popular posts from Reddit.
  *
- * @param limit - The maximum number of posts to retrieve. Defaults to POSTS_LIMIT.
+ * @param token - The OAuth token used for authentication.
+ * @param limit - The number of posts to fetch. Defaults to POSTS_LIMIT.
  * @returns A promise that resolves to an array of PostType objects.
- *
- * @throws Will throw an error if the request to Reddit's API fails.
  */
 export async function getPopularPosts(
+  token: string,
   limit: number = POSTS_LIMIT,
 ): Promise<PostType[]> {
-  const url = `https://oauth.reddit.com/best?limit=${limit}`;
-  const token = await getRedditOAuthToken();
-
-  const response = await axios.get(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+  const response = await axios.get(
+    `https://oauth.reddit.com/best.json?limit=${limit}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 
   const posts = response.data.data.children;
   return posts.map((post: PostResponse) => responseToPostType(post));
