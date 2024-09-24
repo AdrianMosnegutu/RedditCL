@@ -78,3 +78,9 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .page {
+    @apply relative top-[4.5rem] min-h-[calc(100vh-4.5rem)] p-8;
+  }
+}
