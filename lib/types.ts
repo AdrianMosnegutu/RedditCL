@@ -8,6 +8,7 @@ export interface SubredditType {
   icon: string;
   banner: string;
   members: number;
+  activeMembers?: number;
 }
 
 export interface SubredditResponse {
@@ -17,5 +18,6 @@ export interface SubredditResponse {
     icon_img: string;
     banner_img: string;
     subscribers: number;
+    accounts_active: number;
   };
 }

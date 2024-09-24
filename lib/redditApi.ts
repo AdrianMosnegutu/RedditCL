@@ -29,3 +29,27 @@ export async function getPopularSubreddits(
     responseToSubredditType(subreddit),
   );
 }
+
+/**
+ * Fetches information about a specific subreddit.
+ *
+ * @param subredditName - The name of the subreddit to fetch information for.
+ * @returns A promise that resolves to a `SubredditType` object containing subreddit details.
+ *
+ * @throws Will throw an error if the request fails or if the OAuth token cannot be retrieved.
+ */
+export async function getSubreddit(
+  subredditName: string,
+): Promise<SubredditType> {
+  const url = `https://oauth.reddit.com/r/${subredditName}/about.json`;
+  const token = await getRedditOAuthToken();
+
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const subreddit = response.data;
+  return responseToSubredditType(subreddit);
+}
