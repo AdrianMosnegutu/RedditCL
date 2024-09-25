@@ -10,7 +10,9 @@ export default function PostsList({ posts }: Props) {
   return (
     <List
       items={posts}
-      renderItem={(post, index) => <Post key={index} post={post as PostType} />}
+      renderItem={(post) => (
+        <Post key={(post as PostType).id} post={post as PostType} />
+      )}
       className="flex w-[50rem] flex-col gap-4"
     />
   );
