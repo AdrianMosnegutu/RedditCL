@@ -144,7 +144,12 @@ export function responseToPostType({ data }: PostResponse): PostType {
     title: data.title,
     body: data.selftext_html,
     mediaType: data.post_hint,
-    url: data.url,
+    url:
+      data.post_hint === "hosted:video"
+        ? data.media.reddit_video.fallback_url
+        : data.post_hint === "rich:video"
+          ? data.media.oembed.html
+          : data.url,
     redditUrl: `https://reddit.com${data.permalink}`,
     timeCreated: data.created_utc,
     score: data.score,

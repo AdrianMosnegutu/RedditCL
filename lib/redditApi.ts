@@ -22,6 +22,10 @@ export async function getUserAvatar(
   token: string,
   username: string,
 ): Promise<string> {
+  if (username == "[deleted]") {
+    return "";
+  }
+
   const response = await axios.get(
     `https://oauth.reddit.com/user/${username}/about.json`,
     {

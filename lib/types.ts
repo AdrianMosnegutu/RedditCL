@@ -48,6 +48,14 @@ export interface PostResponse {
     post_hint: string;
     is_video: boolean;
     url: string;
+    media: {
+      reddit_video: {
+        fallback_url: string;
+      };
+      oembed: {
+        html: string;
+      };
+    };
     permalink: string;
     created_utc: number;
     score: number;
