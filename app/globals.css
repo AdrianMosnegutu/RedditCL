@@ -6,12 +6,80 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+iframe {
+  @apply h-full w-full;
+}
+
 .md {
   @apply flex flex-col gap-2;
 }
 
+.md h1 {
+  @apply text-3xl font-bold;
+}
+
+.md h2 {
+  @apply text-2xl font-bold;
+}
+
+.md h3 {
+  @apply text-xl font-bold;
+}
+
+.md h4 {
+  @apply text-lg font-bold;
+}
+
+.md h5 {
+  @apply text-base font-bold;
+}
+
+.md h6 {
+  @apply text-sm font-bold;
+}
+
 .md a {
   @apply text-blue-600 hover:underline;
+}
+
+.md ul {
+  @apply list-disc pl-4;
+}
+
+.md ol {
+  @apply list-decimal pl-4;
+}
+
+.md blockquote {
+  @apply border-l-4 border-primary pl-4;
+}
+
+.md pre {
+  @apply rounded-md bg-gray-100 p-4;
+}
+
+.md code {
+  @apply font-mono;
+}
+
+.md table {
+  @apply w-full;
+}
+
+.md th {
+  @apply bg-gray-100 p-2 font-bold;
+}
+
+.md td {
+  @apply bg-gray-50 p-2;
+}
+
+.md img {
+  @apply w-full;
+}
+
+.md hr {
+  @apply my-1 border-t border-gray-200;
 }
 
 @layer utilities {
@@ -89,6 +157,30 @@ body {
 
 @layer components {
   .page {
-    @apply relative top-[4.5rem] min-h-[calc(100vh-4.5rem)] p-8;
+    @apply relative top-[4.5rem] flex min-h-[calc(100vh-4.5rem)] items-start justify-center gap-8 p-8;
+  }
+
+  .upvote {
+    @apply transition-colors ease-out group-hover:text-green-600;
+  }
+
+  .downvote {
+    @apply transition-colors ease-out group-hover:text-red-600;
+  }
+
+  .comment {
+    @apply flex gap-3 rounded-[var(--radius)] px-4 py-2 text-sm transition-colors ease-out hover:bg-muted;
+  }
+
+  .comment .md {
+    @apply gap-2;
+  }
+
+  .comment img {
+    @apply mt-2 max-w-96 rounded-[var(--radius)];
+  }
+
+  .comment p {
+    @apply text-sm;
   }
 }

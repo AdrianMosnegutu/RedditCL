@@ -62,3 +62,21 @@ export interface PostResponse {
     num_comments: number;
   };
 }
+
+/////////////////////
+//  COMMENT TYPES  //
+/////////////////////
+
+export interface CommentType {
+  author: string;
+  body: string;
+  timeCreated: number;
+}
+
+export interface CommentResponse {
+  data: {
+    author: string;
+    body_html: string;
+    created_utc: number;
+  };
+}

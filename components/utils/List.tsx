@@ -1,6 +1,6 @@
 interface Props {
   items: Array<unknown>;
-  renderItem: (item: unknown) => JSX.Element;
+  renderItem: (item: unknown, index?: number) => JSX.Element;
   className?: string;
 }
 

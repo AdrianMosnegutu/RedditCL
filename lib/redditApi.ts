@@ -1,12 +1,18 @@
 import axios from "axios";
-import { POSTS_LIMIT, SUBREDDITS_LIMIT } from "./constants";
+import { COMMENTS_LIMIT, POSTS_LIMIT, SUBREDDITS_LIMIT } from "./constants";
 import {
+  CommentResponse,
+  CommentType,
   PostResponse,
   PostType,
   SubredditResponse,
   SubredditType,
 } from "./types";
-import { responseToPostType, responseToSubredditType } from "./utils";
+import {
+  responseToCommentType,
+  responseToPostType,
+  responseToSubredditType,
+} from "./utils";
 
 /**
  * Fetches the avatar URL of a specified Reddit user.
@@ -115,4 +121,32 @@ export async function getPopularPosts(
 
   const posts = response.data.data.children;
   return posts.map((post: PostResponse) => responseToPostType(post));
+}
+
+/**
+ * Fetches comments for a specific Reddit post.
+ *
+ * @param token - The OAuth token for authentication.
+ * @param postId - The ID of the Reddit post to fetch comments for.
+ * @param limit - The maximum number of comments to fetch. Defaults to COMMENTS_LIMIT.
+ * @returns A promise that resolves to an array of comments.
+ */
+export async function getComments(
+  token: string,
+  postId: string,
+  limit: number = COMMENTS_LIMIT,
+): Promise<CommentType[]> {
+  const response = await axios.get(
+    `https://oauth.reddit.com/comments/${postId}.json?limit=${limit}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  const comments = response.data[1].data.children.slice(0, -1);
+  return comments.map((comment: CommentResponse) =>
+    responseToCommentType(comment),
+  );
 }

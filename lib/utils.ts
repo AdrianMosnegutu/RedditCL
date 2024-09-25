@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import {
+  CommentResponse,
+  CommentType,
   PostResponse,
   PostType,
   SubredditResponse,
@@ -154,5 +156,19 @@ export function responseToPostType({ data }: PostResponse): PostType {
     timeCreated: data.created_utc,
     score: data.score,
     comments: data.num_comments,
+  };
+}
+
+/**
+ * Converts a CommentResponse object to a CommentType object.
+ *
+ * @param {CommentResponse} param0 - The response object containing comment data.
+ * @returns {CommentType} The converted comment object.
+ */
+export function responseToCommentType({ data }: CommentResponse): CommentType {
+  return {
+    author: data.author,
+    body: data.body_html,
+    timeCreated: data.created_utc,
   };
 }

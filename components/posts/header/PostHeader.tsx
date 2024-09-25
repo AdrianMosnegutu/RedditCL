@@ -1,9 +1,6 @@
-"use client";
-
 import { getToken } from "@/lib/actions";
 import { getUserAvatar } from "@/lib/redditApi";
 import { timeAgo, unixTimestampToDatetime } from "@/lib/utils";
-import { useEffect, useState } from "react";
 import { FaCircle } from "react-icons/fa6";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import MediaIcon from "./MediaIcon";
@@ -14,18 +11,13 @@ interface Props {
   mediaType: string;
 }
 
-export default function PostHeader({ author, timeCreated, mediaType }: Props) {
-  const [authorAvatar, setAuthorAvatar] = useState("");
-
-  // Fetch the author's avatar when the component mounts
-  useEffect(() => {
-    async function fetchAvatar() {
-      const token = await getToken();
-      const avatar = await getUserAvatar(token, author);
-      setAuthorAvatar(avatar);
-    }
-    fetchAvatar();
-  }, [author]);
+export default async function PostHeader({
+  author,
+  timeCreated,
+  mediaType,
+}: Props) {
+  const token = await getToken();
+  const authorAvatar = await getUserAvatar(token, author);
 
   return (
     <div className="flex items-center gap-4 px-8 py-4">

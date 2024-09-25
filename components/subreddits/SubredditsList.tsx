@@ -14,8 +14,8 @@ export default function SubredditsList({ title, subreddits }: Props) {
       <CardTitle className="p-6">{title}</CardTitle>
       <List
         items={subreddits}
-        renderItem={(subreddit) => (
-          <SubredditLink subreddit={subreddit as SubredditType} />
+        renderItem={(subreddit, index) => (
+          <SubredditLink key={index} subreddit={subreddit as SubredditType} />
         )}
       />
     </Card>
