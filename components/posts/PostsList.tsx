@@ -6,7 +6,7 @@ interface Props {
   posts: PostType[];
 }
 
-export default async function PostsList({ posts }: Props) {
+export default function PostsList({ posts }: Props) {
   return (
     <List
       items={posts}

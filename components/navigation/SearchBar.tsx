@@ -14,7 +14,7 @@ export default function SearchBar() {
     event.preventDefault();
 
     if (query) {
-      router.push(`search/?q=${query}`);
+      router.push(`/search/?q=${query}`);
     }
   }
 
@@ -30,7 +30,7 @@ export default function SearchBar() {
         placeholder="Search..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="focus:border-accent-foreground w-96 outline-none transition-colors ease-out"
+        className="w-96 outline-none transition-colors ease-out focus:border-accent-foreground"
       />
       <Button
         variant="ghost"

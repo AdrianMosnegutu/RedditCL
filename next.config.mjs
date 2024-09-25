@@ -26,6 +26,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "*.imgur.com",
       },
+      {
+        protocol: "https",
+        hostname: "scontent.fias1-1.fna.fbcdn.net",
+      },
     ],
   },
 };

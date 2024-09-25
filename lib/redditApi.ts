@@ -172,3 +172,41 @@ export async function getComments(
     responseToCommentType(comment),
   );
 }
+
+export async function searchPosts(
+  token: string,
+  query: string,
+  limit: number = POSTS_LIMIT,
+): Promise<PostType[]> {
+  const response = await axios.get(
+    `https://oauth.reddit.com/search.json?q=${query}&limit=${limit}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  const posts = response.data.data.children;
+  return posts.map((post: PostResponse) => responseToPostType(post));
+}
+
+export async function searchSubreddits(
+  token: string,
+  query: string,
+  limit: number = SUBREDDITS_LIMIT,
+): Promise<SubredditType[]> {
+  const response = await axios.get(
+    `https://oauth.reddit.com/subreddits/search.json?q=${query}&limit=${limit}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  const subreddits = response.data.data.children;
+  return subreddits.map((subreddit: SubredditResponse) =>
+    responseToSubredditType(subreddit),
+  );
+}
