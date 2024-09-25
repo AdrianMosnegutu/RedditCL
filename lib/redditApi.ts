@@ -51,8 +51,6 @@ export async function getUserAvatar(
  * @param token - The OAuth token used for authorization.
  * @param limit - The maximum number of subreddits to fetch. Defaults to `SUBREDDITS_LIMIT`.
  * @returns A promise that resolves to an array of `SubredditType` objects.
- *
- * @throws Will throw an error if the request fails.
  */
 export async function getPopularSubreddits(
   token: string,
@@ -79,8 +77,6 @@ export async function getPopularSubreddits(
  * @param token - The OAuth token used for authorization.
  * @param subredditName - The name of the subreddit to fetch information for.
  * @returns A promise that resolves to a `SubredditType` containing the subreddit's information.
- *
- * @throws Will throw an error if the request fails.
  */
 export async function getSubreddit(
   token: string,
@@ -103,8 +99,8 @@ export async function getSubreddit(
  * Fetches the most popular posts from Reddit.
  *
  * @param token - The OAuth token used for authentication.
- * @param limit - The number of posts to fetch. Defaults to POSTS_LIMIT.
- * @returns A promise that resolves to an array of PostType objects.
+ * @param limit - The number of posts to fetch. Defaults to `POSTS_LIMIT`.
+ * @returns A promise that resolves to an array of `PostType` objects.
  */
 export async function getPopularPosts(
   token: string,
@@ -124,11 +120,37 @@ export async function getPopularPosts(
 }
 
 /**
+ * Fetches the most popular posts from a specific subreddit.
+ *
+ * @param token - The OAuth token for authentication.
+ * @param subredditName - The name of the subreddit to fetch posts from.
+ * @param limit - The maximum number of posts to fetch. Defaults to `POSTS_LIMIT`.
+ * @returns A promise that resolves to an array of `PostType` objects.
+ */
+export async function getSubredditPosts(
+  token: string,
+  subredditName: string,
+  limit: number = POSTS_LIMIT,
+): Promise<PostType[]> {
+  const response = await axios.get(
+    `https://oauth.reddit.com/r/${subredditName}/hot.json?limit=${limit}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  const posts = response.data.data.children;
+  return posts.map((post: PostResponse) => responseToPostType(post));
+}
+
+/**
  * Fetches comments for a specific Reddit post.
  *
  * @param token - The OAuth token for authentication.
  * @param postId - The ID of the Reddit post to fetch comments for.
- * @param limit - The maximum number of comments to fetch. Defaults to COMMENTS_LIMIT.
+ * @param limit - The maximum number of comments to fetch. Defaults to `COMMENTS_LIMIT`.
  * @returns A promise that resolves to an array of comments.
  */
 export async function getComments(
