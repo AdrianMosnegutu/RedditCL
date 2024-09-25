@@ -13,7 +13,7 @@ export default function SubredditCard({ subreddit }: Props) {
   const { name, description, icon, banner, members, activeMembers } = subreddit;
 
   return (
-    <Card className="h-fit w-[30rem] overflow-hidden">
+    <Card className="sticky top-[6.5rem] h-fit w-[30rem] overflow-hidden">
       <Banner banner={banner} />
       <div className="flex flex-col gap-4 p-6">
         <NameAndIcon name={name} icon={icon} />

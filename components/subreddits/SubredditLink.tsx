@@ -10,7 +10,7 @@ export default function SubredditLink({ subreddit }: Props) {
   return (
     <Link
       href={`/r/${subreddit.name}`}
-      className="hover:bg-muted sticky top-[6.5rem] flex items-center gap-3 px-6 py-2 transition-colors ease-out"
+      className="hover:bg-muted flex items-center gap-3 px-6 py-3 transition-colors ease-out"
     >
       <Avatar>
         <AvatarImage src={subreddit.icon} />
