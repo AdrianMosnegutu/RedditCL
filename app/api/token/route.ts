@@ -13,7 +13,7 @@ import { NextResponse } from "next/server";
  *
  * @throws Will throw an error if the request to Reddit's API fails.
  */
-export async function handler(): Promise<NextResponse> {
+async function handler(): Promise<NextResponse> {
   const cookieStore = cookies();
 
   const token = cookieStore.get("reddit_access_token")?.value;
