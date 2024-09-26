@@ -23,8 +23,8 @@ const nextConfig = {
         hostname: "media.makeameme.org",
       },
       {
-        protocol: "https",
-        hostname: "*.imgur.com",
+        protocol: "http",
+        hostname: "i.imgur.com",
       },
       {
         protocol: "https",
