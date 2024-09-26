@@ -1,11 +1,10 @@
 "use client";
 
-import List from "@/components/utils/List";
 import { getToken } from "@/lib/actions";
 import { getComments } from "@/lib/redditApi";
 import { CommentType } from "@/lib/types";
 import { useEffect, useState } from "react";
-import Comment from "./Comment";
+import CommentSection from "../../comments/CommentSection";
 import CommentsToggle from "./CommentsToggle";
 import RedditLink from "./RedditLink";
 import Score from "./Score";
@@ -42,7 +41,7 @@ export default function PostFooter({
     }
 
     fetchComments();
-  }, [commentsVisible]);
+  }, [comments, commentsVisible, id]);
 
   return (
     <>
@@ -57,15 +56,7 @@ export default function PostFooter({
       </div>
 
       {/* Comments section */}
-      {commentsVisible && (
-        <List
-          items={comments}
-          renderItem={(comment, index) => (
-            <Comment key={index} comment={comment as CommentType} />
-          )}
-          className="p-4"
-        />
-      )}
+      {commentsVisible && <CommentSection comments={comments} />}
     </>
   );
 }

@@ -1,5 +1,5 @@
 import PostsList from "@/components/posts/PostsList";
-import SubredditCard from "@/components/subreddits/SubredditsCard/SubredditCard";
+import SubredditCard from "@/components/subreddits/SubredditCard/SubredditCard";
 import { getToken } from "@/lib/actions";
 import { getSubreddit, getSubredditPosts } from "@/lib/redditApi";
 

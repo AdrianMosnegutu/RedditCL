@@ -28,21 +28,26 @@ export async function getUserAvatar(
   token: string,
   username: string,
 ): Promise<string> {
-  if (username == "[deleted]") {
+  try {
+    if (username == "[deleted]") {
+      return "";
+    }
+
+    const response = await axios.get(
+      `https://oauth.reddit.com/user/${username}/about.json`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    const avatar = response.data.data.icon_img;
+    return /styles/.test(avatar) ? "" : avatar;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
     return "";
   }
-
-  const response = await axios.get(
-    `https://oauth.reddit.com/user/${username}/about.json`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-
-  const avatar = response.data.data.icon_img;
-  return /styles/.test(avatar) ? "" : avatar;
 }
 
 /**
